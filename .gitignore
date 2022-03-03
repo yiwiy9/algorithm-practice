@@ -1,0 +1,9 @@
+# vscode
+/.vscode
+
+# library
+/ac-library
+
+# Executables
+*.exe
+*.out
