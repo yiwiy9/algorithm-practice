@@ -4,6 +4,7 @@
 # library
 /ac-library
 
-# Executables
+# Outputs
 *.exe
 *.out
+/problem.exe.dSYM
