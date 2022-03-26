@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-const long long INF = 1LL << 60;
 template<class T> void chmax(T& a, T b) {
   if (a < b) {
     a = b;
