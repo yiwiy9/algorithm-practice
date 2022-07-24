@@ -2,6 +2,8 @@
 #include <vector>
 using namespace std;
 
+using Edge = pair<int, int>;
+
 struct UnionFind {
   vector<int> parent, size;
 
@@ -45,19 +47,37 @@ struct UnionFind {
   }
 };
 
+// https://atcoder.jp/contests/abc120/tasks/abc120_d
+int main()
+{
+  long long N, M;
+  cin >> N >> M;
 
+  vector<Edge> e(M);
+  for (int i=0; i<M; i++) {
+    cin >> e[i].first >> e[i].second;
+    e[i].first--;
+    e[i].second--;
+  }
 
+  // 逆から考える（橋を架けていく）
+  UnionFind uf(N);
 
+  long long cnt = N * (N-1) / 2; // nC2 (NOTE: 右辺の段階でlong longじゃないとダメ)
+  vector<long long> ans;
+  for (int i=M-1; i>=0; i--) { // e[0]がある状態は答えに影響しないので考えなくて良い
+    ans.push_back(cnt);
 
-int main() {
-  UnionFind uf(7); // {0}, {1}, {2}, {3}, {4}, {5}, {6}
+    if (uf.is_same(e[i].first, e[i].second)) continue;
 
-  uf.unite(1, 2); // {0}, {1, 2}, {3}, {4}, {5}, {6}
-  uf.unite(2, 3); // {0}, {1, 2, 3}, {4}, {5}, {6}
-  uf.unite(5, 6); // {0}, {1, 2, 3}, {4}, {5, 6}
-  cout << uf.is_same(1, 3) << endl;
-  cout << uf.is_same(2, 5) << endl;
+    long long a_size = uf.group_size(e[i].first);
+    long long b_size = uf.group_size(e[i].second);
+    cnt -= a_size * b_size;
 
-  uf.unite(1, 6);
-  cout << uf.is_same(2, 5) << endl;
+    uf.unite(e[i].first, e[i].second);
+  }
+
+  for (int i=ans.size()-1; i>=0; i--) {
+    cout << ans[i] << endl;
+  }
 }

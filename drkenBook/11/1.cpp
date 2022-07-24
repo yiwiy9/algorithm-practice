@@ -2,6 +2,8 @@
 #include <vector>
 using namespace std;
 
+using Edge = pair<int, int>;
+
 struct UnionFind {
   vector<int> parent, size;
 
@@ -45,19 +47,30 @@ struct UnionFind {
   }
 };
 
+// https://atcoder.jp/contests/abc075/tasks/abc075_c
+int main()
+{
+  int N, M;
+  cin >> N >> M;
 
+  vector<Edge> e(M);
+  for (int i=0; i<M; i++) cin >> e[i].first >> e[i].second;
 
+  int ans = 0;
+  for (int i=0; i<M; i++) {
+    UnionFind uf(N+1);
+    for (int j=0; j<M; j++) {
+      if (i == j) continue;
+      uf.unite(e[j].first, e[j].second);
+    }
 
+    int cnt = 0;
+    for (int x=1; x<=N; x++) {
+      if (uf.root(x) == x) cnt++;
+    }
 
-int main() {
-  UnionFind uf(7); // {0}, {1}, {2}, {3}, {4}, {5}, {6}
+    if (cnt != 1) ans++;
+  }
 
-  uf.unite(1, 2); // {0}, {1, 2}, {3}, {4}, {5}, {6}
-  uf.unite(2, 3); // {0}, {1, 2, 3}, {4}, {5}, {6}
-  uf.unite(5, 6); // {0}, {1, 2, 3}, {4}, {5, 6}
-  cout << uf.is_same(1, 3) << endl;
-  cout << uf.is_same(2, 5) << endl;
-
-  uf.unite(1, 6);
-  cout << uf.is_same(2, 5) << endl;
+  cout << ans << endl;
 }
