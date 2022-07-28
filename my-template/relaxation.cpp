@@ -3,17 +3,21 @@ using namespace std;
 
 
 // 最小値の更新
-template<class T> void chmin(T& a, T b) {
+template<class T> bool chmin(T& a, T b) {
   if (a > b) {
     a = b;
+    return true;
   }
+  return false;
 }
 
 // 最大値の更新
-template<class T> void chmax(T& a, T b) {
+template<class T> bool chmax(T& a, T b) {
   if (a < b) {
     a = b;
+    return true;
   }
+  return false;
 }
 
 
