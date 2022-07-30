@@ -7,7 +7,7 @@ using Graph = vector<vector<int>>;
 
 /**
  * https://qiita.com/drken/items/996d80bcae64649a6580
- * 出次数 deg[v]： 頂点 vv を始点とする辺の個数
+ * 出次数 deg[v]： 頂点 v を始点とする辺の個数
  * シンク： 出次数が 0 であるような頂点
  */
 int main()
