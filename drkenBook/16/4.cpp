@@ -116,27 +116,37 @@ struct FordFulkerson {
   }
 };
 
-
+long long GCD(long long a, long long b) {
+  if (b == 0) return a;
+  else return GCD(b, a % b);
+}
 
 /**
- * 最大流問題を解くときに使う
+ * https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=1163&lang=jp
+ * 二部マッチング問題
  */
 int main() {
-  // グラフの入力
-  // N: 頂点数、M: 辺数
-  int N, M;
-  cin >> N >> M;
-  Graph G(N);
-  for (int i = 0; i < M; ++i) {
-    int u, v, c;
-    cin >> u >> v >> c;
+  int M, N;
+  cin >> M >> N;
 
-    // 容量 c の辺 (u, v) を張る
-    G.addedge(u, v, c);
+  vector<int> blue(M), red(N);
+  for (int i=0; i<M; i++) cin >> blue[i];
+  for (int j=0; j<N; j++) cin >> red[j];
+
+  Graph G(N+M+2);
+  for (int i=0; i<M; i++) G.addedge(N+M, i, 1);
+  for (int j=0; j<N; j++) G.addedge(j+M, N+M+1, 1);
+
+  for (int i=0; i<M; i++) {
+    for (int j=0; j<N; j++) {
+      if (GCD(blue[i], red[j]) > 1) {
+        G.addedge(i, j+M, 1);
+      }
+    }
   }
 
   // フォード・ファルカーソン法
   FordFulkerson ff;
-  int s = 0, t = N - 1;
+  int s = N+M, t = N+M+1;
   cout << ff.solve(G, s, t) << endl;
 }
